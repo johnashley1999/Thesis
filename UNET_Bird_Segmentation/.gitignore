@@ -1,0 +1,26 @@
+UNET_Bird_Segmentation/
+ 
+# Ignore virtual environments
+UNET_Bird_Segmentation/UNET_Bird_Segmentation_Venv/
+
+# Python-specific files
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE configuration files
+.vscode/
+.idea/
+
+# Ignore dependencies
+requirements.txt
