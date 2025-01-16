@@ -1,11 +1,24 @@
 UNET_Bird_Segmentation/
- 
-# Ignore virtual environments
-UNET_Bird_Segmentation/UNET_Bird_Segmentation_Venv/
+
+
+# Virtual Environment
+UNET_Bird_Segmentation_Venv/
+venv/
+env/
 
 # Python-specific files
 __pycache__/
 *.py[cod]
+*$py.class
+
+# Generated masks and images
+*_mask.png
+*.jpg
+*.jpeg
+*.png
+!original_images/*.jpg    # This will keep your original images if they're in this folder
+!original_images/*.jpeg
+!original_images/*.png
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -22,5 +35,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Ignore dependencies
+# Requirements file if you want to ignore it
 requirements.txt
+
