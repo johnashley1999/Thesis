@@ -7,6 +7,10 @@ from PIL import Image
 def create_mask_from_polygon(polygon, height, width):
     """Create a binary mask from polygon vertices."""
     mask = np.zeros((height, width), dtype=np.uint8)
+
+    assert mask.shape == (height, width), f"Mask shape {mask.shape} doesn't match expected dimensions ({height}, {width})"
+    
+    polygon = np.array(polygon, dtype=np.int32) 
     polygon = np.array(polygon, dtype=np.int32)
     polygon = polygon.reshape((-1, 1, 2))
     cv2.fillPoly(mask, [polygon], 255)
@@ -43,6 +47,14 @@ def convert_coco_to_masks(coco_data, directory):
                     temp_mask = create_mask_from_polygon(polygon, height, width)
                     mask = cv2.bitwise_or(mask, temp_mask)
         
+        img_path = os.path.join(directory, img_info['file_name'])
+        if os.path.exists(img_path):
+            actual_img = Image.open(img_path)
+            img_width, img_height = actual_img.size
+
+            if mask.shape[0] > mask.shape[1] and img_width > img_height:
+                mask = cv2.rotate(mask, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
         # Create mask filename
         base_name = os.path.splitext(img_info['file_name'])[0]
         mask_filename = f"{base_name}_mask.png"
@@ -59,6 +71,7 @@ def convert_coco_to_masks(coco_data, directory):
 def main():
     # Get the directory containing the script
     base_directory = os.path.dirname(os.path.abspath(__file__))
+
     directory_mods = ["Data/train", "Data/test", "Data/valid"]
     
     for directory_mod in directory_mods:
